@@ -132,7 +132,20 @@ the tool menu immediately following the hyperlink for the tool (based on the
         <xs:element name="inputs" type="Inputs" minOccurs="0"/>
         <xs:element name="tests" type="Tests" minOccurs="0"/>
         <xs:element name="stdio" type="Stdio" minOccurs="0"/>
-        <xs:element name="help" type="xs:string" minOccurs="0">
+        <xs:element name="help" minOccurs="0">
+          <xs:complexType mixed="true">
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="style" type="xs:string" use="optional" default="rst">
+                  <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                          <xs:enumeration value="rst"/>
+                          <xs:enumeration value="markdown"/>
+                      </xs:restriction>
+                  </xs:simpleType>
+              </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
           <xs:annotation gxdocs:best_practices="help-tag">
             <xs:documentation xml:lang="en"><![CDATA[This tag set includes all of the necessary details of how to use the tool. This tag set should be included as the next to the last tag set, before citations, in the tool config. Tool help is written in reStructuredText. Included here is only an overview of a subset of features. For more information see [here](https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html).
 
@@ -175,7 +188,8 @@ Query sequence::
 ```
 
 ]]></xs:documentation>
-          </xs:annotation>
+            </xs:annotation>
+          </xs:complexType>
         </xs:element>
         <xs:element name="code" type="Code" minOccurs="0"/>
         <xs:element name="uihints" type="UIhints" minOccurs="0"/>

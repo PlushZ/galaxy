@@ -17,6 +17,7 @@ export function useStepProps(step: Ref<Step>) {
     const label = computed(() => step.value.label ?? undefined);
     const annotation = computed(() => step.value.annotation ?? null);
     const configForm = computed(() => step.value.config_form);
+    
 
     return {
         stepId,

@@ -114,6 +114,7 @@ function onUpdatePreferredObjectStoreId(selectedToolPreferredObjectStoreId) {
 }
 
 const showHelpForum = computed(() => isConfigLoaded.value && config.value.enable_help_forum_tool_panel_integration);
+console.log("props.options debugging message", props.options);
 </script>
 
 <template>
@@ -185,8 +186,10 @@ const showHelpForum = computed(() => isConfigLoaded.value && config.value.enable
 
         <div>
             <div v-if="props.options.help" class="mt-2 mb-4">
-                <Heading h2 separator bold size="sm"> Help </Heading>
-                <ToolHelp :content="props.options.help" />
+                <Heading h2 separator bold size="sm"> Help </Heading> 
+                <ToolHelp 
+                    :content="props.options.help"
+                    :help_style="props.options.help_style" />
             </div>
 
             <ToolTutorialRecommendations

@@ -62,6 +62,7 @@ export interface FilterSettings {
     id?: string;
     owner?: string;
     help?: string;
+    help_style?: string;
 }
 
 export interface PanelView {

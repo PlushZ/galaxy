@@ -97,6 +97,7 @@ export default {
         const { stepId, annotation, label, stepInputs, stepOutputs, configForm, postJobActions } = useStepProps(
             toRef(props, "step")
         );
+
         const { stepStore } = useWorkflowStores();
         const uniqueErrorLabel = useUniqueLabelError(stepStore, label);
 
@@ -218,4 +219,7 @@ export default {
         },
     },
 };
+
+//console.log("props-options debugging message", options);
+//console.log(" this.configForm debugging message", this.configForm);
 </script>

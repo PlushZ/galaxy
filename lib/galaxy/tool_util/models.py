@@ -40,6 +40,9 @@ class ParsedTool(BaseModel):
     edam_topics: List[str]
     xrefs: List[XrefDict]
     help: Optional[str]
+    help_style: Optional[str]
+    #help: Optional[str]
+    #help: Optional[Dict[str, Any]]
 
 
 def parse_tool(tool_source: ToolSource) -> ParsedTool:
@@ -55,7 +58,10 @@ def parse_tool(tool_source: ToolSource) -> ParsedTool:
     edam_operations = tool_source.parse_edam_operations()
     edam_topics = tool_source.parse_edam_topics()
     xrefs = tool_source.parse_xrefs()
-    help = tool_source.parse_help()
+    help, help_style = tool_source.parse_help()
+    #help = tool_source.parse_help()
+    #help_info = tool_source.parse_help()
+    #help = help_info if help_info else {"content": None, "style": "rst"}
 
     return ParsedTool(
         id=id,
@@ -71,4 +77,6 @@ def parse_tool(tool_source: ToolSource) -> ParsedTool:
         edam_topics=edam_topics,
         xrefs=xrefs,
         help=help,
+        help_style=help_style,
+        #help=help,
     )

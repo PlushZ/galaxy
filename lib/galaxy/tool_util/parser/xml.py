@@ -4,6 +4,8 @@ import math
 import os
 import re
 import uuid
+#import markdown
+#from markupsafe import Markup
 from typing import (
     Any,
     cast,
@@ -643,9 +645,37 @@ class XmlToolSource(ToolSource):
         else:
             return string_as_bool(default)
 
+    #def parse_help(self):
+    #    help_elem = self.root.find("help")
+    #    return help_elem.text if help_elem is not None else None
+
     def parse_help(self):
         help_elem = self.root.find("help")
-        return help_elem.text if help_elem is not None else None
+        if help_elem is not None and help_elem.text:
+            help_style = help_elem.get("style", "rst")
+            help_content = help_elem.text
+            marked_help_content = f"{help_elem.text}\n\n[DEBUG MARKER: Help Content Retrieved with style='{help_style}']" # delete a marker from the help text
+            #marked_help_content = f"{help_style}{help_elem.text}"
+            log.info(f"Help content parsed: {marked_help_content}")
+            return marked_help_content, help_style # initially only content, content,style doesnt work now
+            #return {
+            #    "content": help_content,
+            #    "style": help_style,
+            #}
+        else:
+            log.info("Help content parsed: None")
+            return None , None
+
+    #def parse_help(self):
+    #    help_elem = self.root.find("help")
+    #    if help_elem is not None:
+    #        help_style = help_elem.get("style", "rst")
+    #        help_content = help_elem.text
+    #        return {
+    #            "content": help_content,
+    #            "help_style": help_style,
+    #        }
+    #    return None
 
     @property
     def macro_paths(self):

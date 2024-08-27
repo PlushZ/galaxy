@@ -1,5 +1,8 @@
 import { getAppRoot } from "onload/loadConfig";
 import { computed, unref } from "vue";
+import MarkdownIt from "markdown-it";
+
+const mdParser = new MarkdownIt();
 
 /**
  * Increase the heading levels of all child nodes of a node
@@ -38,6 +41,31 @@ function increaseHeadingLevel(node, level, increaseBy) {
     });
 }
 
+function htmlToMarkdown(html) {
+    // create a temporary DOM element to parse the HTML
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    // extract the text from <p> tags and reconstruct Markdown
+    const paragraphs = Array.from(tempDiv.querySelectorAll("p"));
+    const markdown = paragraphs.map(p => {
+        const text = p.textContent;
+        // Convert the <p> tags into paragraphs in Markdown
+        return text;
+    }).join("\n\n");
+
+    return markdown;
+}
+
+export function useFormattedToolHelpMd(helpContent) {
+    const formattedContent = computed(() => {
+        const markdownContent = htmlToMarkdown(helpContent);
+        const htmlContent = mdParser.render(markdownContent);
+        return htmlContent;
+    });
+
+    return { formattedContent };
+}
+
 export function useFormattedToolHelp(helpContent, headingLevelIncrease = 2) {
     const formattedContent = computed(() => {
         const node = document.createElement("div");
@@ -62,3 +90,47 @@ export function useFormattedToolHelp(helpContent, headingLevelIncrease = 2) {
 
     return { formattedContent };
 }
+
+//export function useFormattedToolHelp(helpContent, headingLevelIncrease = 2) {
+//    const formattedContent = computed(() => {
+//        const content = unref(helpContent);
+//        const node = document.createElement("div");
+
+        // Determine the style and extract the actual help content
+//        const styleMatch = content.match(/<help(?:\s+style="(markdown|rst)")?>/i);
+//        const style = styleMatch ? styleMatch[1] : "markdown";
+
+//        console.log("Help content before parsing:", helpContent);
+//        console.log("Detected style:", style);
+
+        // Parse the help text based on the style
+//        let parsedContent = "";
+//        if (style === "markdown") {
+//            parsedContent = mdParser.render(content);
+//        } else {
+//            parsedContent = content
+//        }
+
+//        console.log("HTML content after parsing:", parsedContent);
+
+//        node.innerHTML = parsedContent;
+
+//        const links = node.getElementsByTagName("a");
+//        Array.from(links).forEach((link) => {
+//            link.target = "_blank";
+//        });
+
+//        const images = node.getElementsByTagName("img");
+//        Array.from(images).forEach((image) => {
+//            if (image.src.includes("admin_toolshed")) {
+//                image.src = getAppRoot() + image.src;
+//            }
+//        });
+
+//        increaseHeadingLevels(node, unref(headingLevelIncrease));
+
+//        return node.innerHTML;
+//    });
+
+//    return { formattedContent };
+//}

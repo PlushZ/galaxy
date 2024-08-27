@@ -1042,6 +1042,8 @@ export interface components {
             edam_topics: string[]
             /** Help */
             help: string | null
+            /** Help style */
+            help_style: string | null
             /** Id */
             id: string
             /** Inputs */

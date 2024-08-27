@@ -332,9 +332,10 @@ class ToolSource(metaclass=ABCMeta):
         return [], []
 
     @abstractmethod
-    def parse_help(self) -> Optional[str]:
-        """Return RST definition of help text for tool or None if the tool
-        doesn't define help text.
+    def parse_help(self) -> Optional[Tuple[Optional[str], Optional[str]]]:
+    #def parse_help(self) -> Optional[Dict[str, Any]]:
+        """Return a tuple with the definition of the help text for the tool
+        and the style of the help text (RST by default), or (None, None) if the tool doesn't define help text.
         """
 
     @abstractmethod
